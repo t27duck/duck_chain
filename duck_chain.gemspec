@@ -10,9 +10,9 @@ Gem::Specification.new do |s|
 
   s.authors     = ["Tony Drake"]
   s.email       = ["t27duck@gmail.com"]
-  s.homepage    = ""
+  # s.homepage    = ""
   s.summary     = %q{Because I like chaining easy to read search methods with ActiveRecord thankyouverymuch}
-  s.description = %q{A simple Rails 3 Gem that extends ActiveRecord let's you specify model attributes to dynamically create search methods similar to searchlogic's dynamic named scopes. It can be used to help Rails 2 projects with searchlogic migrate to Rails 3 with metasearch a little easier.}
+  s.description = %q{A simple Rails 3 Gem that extends ActiveRecord. Let's you specify model attributes to dynamically create search methods similar to searchlogic's dynamic named scopes. It can be used to help Rails 2 projects with searchlogic migrate to Rails 3 with metasearch a little easier.}
 
   s.rubyforge_project = "duck_chain"
 
