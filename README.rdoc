@@ -1,0 +1,85 @@
+= duck_chain
+
+== Intro
+This gem's purpose is to generate basic chainable search methods on models in Rails 3 similar to searchlogic's dynamic named scopes.
+
+duck_chain's original purpose is to help with the transition from Rails 2 to 3. A lot of projects use searchlogic, and while metasearch
+is a fine replacement, it doesn't provide the dynamic named scopes (ie Post.title_equals("foobar").content_like("I like pie"). To help with the
+transition, duck_chain extends ActiveRecord and creates extra chainable model methods for attributes you specifiy which act similar to the basic
+searchlogic named scopes. The methods simply return Arel where cluases so you can chain them with other methods.
+
+Only the basic single table methods are supported (eq, not_equal, gte, like, etc.). Meaning you can't do Post.post_comments_title_eq("This blog sux"). 
+Legacy code like that should be converted into an Arel where method, metasearch search method, or whatever you decide to go with for Rails 3. Again,
+the gem was built to help with the transition and provide some of the basic search methods people using searchlogic are used to in Rails 3. Plus, I personally like typing out
+Post.created_at_gte(Time.now).content_like("I like shorts. They're comfortable and easy to wear.") more than Post.where(['created_at >= ?', Time.now]).where("content LIKE '%I like shorts. They're comfortable and easy to wear.%'").
+Just seems a little clearer this way. :)
+
+== Setup
+Include the gem in your GemFile like any other gem.
+
+== Usage
+Consider the following model...
+  class Post < ActiveRecord::Base
+    # Fields:
+    #   id:integer
+    #   title:string
+    #   content:text
+    #   url:string
+    #   comment_counter:integer
+    #   created_at:datetime
+    #   updated_at:datetime
+  end
+
+==== Use all search methods for selected attributes
+To have duck_chain bind to the title, content, and url attributes of the model...
+  class Post < ActiveRecord::Base
+    duck_chain :content, 'title', :url
+    # Note you can use symbols or strings in your list of attributes
+  end
+
+Calling duck_chain creates a bunch of chainable methods for the Post model for the content, title, and url attributes...
+
+Example new methods related to the title attribute:
+
+<i>The following <b>'eq'</b> methods can accept a string, array, or range</i>
+* title_eq
+* title_equals
+* title_is
+* title_in
+* title_neq
+* title_not_equal
+* title_is_not
+* title_does_not_equal
+* title_not_in
+<i>The following <b>'like'</b> methods should only be passed a string</i>
+* title_like
+* title_begins_with
+* title_ends_with
+* title_not_like
+* title_not_begin_with
+* title_not_end_with
+<i>The following <b>'range'</b> methods should only be passed a string</i>
+* title_gt
+* title_greater_than
+* title_gte
+* title_greater_than_or_equal_to
+* title_lt
+* title_less_than
+* title_lte
+* title_less_than_or_equal_to
+
+Then, you can just use the methods in your code like you did with searchlogic...
+Post.title_eq("Foobar").where(...).content_like("Blah")
+
+==== Use only certain search methods for selected attributes
+There might be some cases where you'd rather just only bind the 'eq' methods to an attribute rather than all of them...
+  class Post < ActiveRecord::Base
+    # Will only create the _eq, _is, _neq, _in, etc. methods
+    duck_chain_eq :content, 'title', :url
+  end
+
+You can also create only the 'like' and 'range' methods in a similar fasion...
+  class Post < ActiveRecord::Base
+    duck_chain_like :content
+    duck_chain_range :created_at
+  end

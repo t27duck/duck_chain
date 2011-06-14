@@ -1,5 +1,6 @@
 require "duck_chain/version"
+require "duck_chain/toolset"
+require "duck_chain/active_record_extensions"
 
-module DuckChain
-  # Your code goes here...
-end
+ActiveRecord::Base.extend DuckChain::ActiveRecordExtensions
+
