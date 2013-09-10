@@ -1,7 +1,12 @@
 module DuckChain
 
   # Methods that extend ActiveRecord and allows duck_chain to work
-  module ActiveRecordExtensions   
+  module ActiveRecordExtensions
+    # creates a duck chain extensions for all model attributes.
+    def duck_chain_all
+      cols = self.column_names.map(&:to_sym)
+      self.send(:duck_chain,*cols)
+    end
 
     # The generic call which will generate all methods for the model
     def duck_chain(*model_attributes)
@@ -11,22 +16,22 @@ module DuckChain
     end
 
     # Takes the list of model attributes calls the create method from DuckChain::Toolset
-    # to generate the 'eq' methods 
+    # to generate the 'eq' methods
     def duck_chain_eq(*model_attributes)
       Toolset.create_eq_methods(model_attributes)
     end
 
     # Takes the list of model attributes calls the create method from DuckChain::Toolset
-    # to generate the 'list' methods 
+    # to generate the 'list' methods
     def duck_chain_like(*model_attributes)
       Toolset.create_like_methods(model_attributes)
     end
 
     # Takes the list of model attributes calls the create method from DuckChain::Toolset
-    # to generate the 'range' methods 
+    # to generate the 'range' methods
     def duck_chain_range(*model_attributes)
       Toolset.create_range_methods(model_attributes)
     end
-    
+
   end
 end
