@@ -1,2 +1,5 @@
+Version 1.1.0
+* Added duck_chain_all (cromulus)
+
 Version 1.0.0
 * First release

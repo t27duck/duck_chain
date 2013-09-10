@@ -1,6 +1,6 @@
 require 'bundler/gem_tasks'
 
-require 'rake/rdoctask'
+require 'rdoc/task'
 desc 'Generate RDoc documentation for the will_paginate plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'CHANGELOG.rdoc').include('lib/**/*.rb').exclude('lib/duck_chain/version.rb')
