@@ -8,7 +8,7 @@ is a fine replacement, it doesn't provide the dynamic named scopes (ie Post.titl
 transition, duck_chain extends ActiveRecord and creates extra chainable model methods for attributes you specifiy which act similar to the basic
 searchlogic named scopes. The methods simply return Arel where cluases so you can chain them with other methods.
 
-Only the basic single table methods are supported (eq, not_equal, gte, like, etc.). Meaning you can't do Post.post_comments_title_eq("This blog sux"). 
+Only the basic single table methods are supported (eq, not_equal, gte, like, etc.). Meaning you can't do Post.post_comments_title_eq("This blog sux").
 Legacy code like that should be converted into an Arel where method, metasearch search method, or whatever you decide to go with for Rails 3. Again,
 the gem was built to help with the transition and provide some of the basic search methods people using searchlogic are used to in Rails 3. Plus, I personally like typing out
 Post.created_at_gte(Time.now).content_like("I like shorts. They're comfortable and easy to wear.") more than Post.where(['created_at >= ?', Time.now]).where("content LIKE '%I like shorts. They're comfortable and easy to wear.%'").
@@ -37,7 +37,14 @@ To have duck_chain bind to the title, content, and url attributes of the model..
     # Note you can use symbols or strings in your list of attributes
   end
 
-Calling duck_chain creates a bunch of chainable methods for the Post model for the content, title, and url attributes...
+Calling duck_chain creates a bunch of chainable methods for the Post model for the content, title, and url attributes
+
+Or, instead of specifying exactly which attributes to chain, you can call
+  class Post < ActiveRecord::Base
+    duck_chain_all
+  end
+which will add duck_chain to all of the attributes of the model
+...
 
 Example new methods related to the title attribute:
 
