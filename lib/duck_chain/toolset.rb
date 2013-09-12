@@ -36,9 +36,9 @@ module DuckChain
         ['neq','not_equal','is_not','does_not_equal','not_in'].each do |suffix|
           self.class.send(:define_method, "#{m}_#{suffix}", Proc.new{ |search_term| 
               if search_term.is_a?(Array) || search_term.is_a?(Range)
-                where(["? NOT IN (?)", m, search_term])               
+                where(["#{m} NOT IN (?)", search_term])               
               else
-                where(["? != ?", m, search_term])
+                where(["#{m} != ?", search_term])
               end
             } 
           )
@@ -57,13 +57,13 @@ module DuckChain
     # * not_end_with
     def self.create_like_methods(model_attributes)
       Toolset.set_as_array(model_attributes).each do |m|
-        self.class.send(:define_method, "#{m}_like", Proc.new{ |search_term| where(["? LIKE (?)", m, "%#{search_term}%"])} )
-        self.class.send(:define_method, "#{m}_begins_with", Proc.new{ |search_term| where(["? LIKE (?)", m, "#{search_term}%"])} )
-        self.class.send(:define_method, "#{m}_ends_with", Proc.new{ |search_term| where(["? LIKE (?)", m, "%#{search_term}"])} )
+        self.class.send(:define_method, "#{m}_like", Proc.new{ |search_term| where(["#{m} LIKE (?)", "%#{search_term}%"])} )
+        self.class.send(:define_method, "#{m}_begins_with", Proc.new{ |search_term| where(["#{m} LIKE (?)", "#{search_term}%"])} )
+        self.class.send(:define_method, "#{m}_ends_with", Proc.new{ |search_term| where(["#{m} LIKE (?)", "%#{search_term}"])} )
 
-        self.class.send(:define_method, "#{m}_not_like", Proc.new{ |search_term| where(["? NOT LIKE (?)", m, "%#{search_term}%"])} )
-        self.class.send(:define_method, "#{m}_not_begin_with", Proc.new{ |search_term| where(["? NOT LIKE (?)", m, "#{search_term}%"])} )
-        self.class.send(:define_method, "#{m}_not_end_with", Proc.new{ |search_term| where(["? NOT LIKE (?)", m, "%#{search_term}"])} )
+        self.class.send(:define_method, "#{m}_not_like", Proc.new{ |search_term| where(["#{m} NOT LIKE (?)", "%#{search_term}%"])} )
+        self.class.send(:define_method, "#{m}_not_begin_with", Proc.new{ |search_term| where(["#{m} NOT LIKE (?)", "#{search_term}%"])} )
+        self.class.send(:define_method, "#{m}_not_end_with", Proc.new{ |search_term| where(["#{m} NOT LIKE (?)", "%#{search_term}"])} )
       end
     end
 
@@ -81,16 +81,16 @@ module DuckChain
     def self.create_range_methods(model_attributes)
       Toolset.set_as_array(model_attributes).each do |m|
         ['gt','greater_than'].each do |suffix|
-          self.class.send(:define_method, "#{m}_#{suffix}", Proc.new{ |search_term| where(['? > ?', m, search_term])} )
+          self.class.send(:define_method, "#{m}_#{suffix}", Proc.new{ |search_term| where(["#{m} > ?", search_term])} )
         end
         ['gte','greater_than_or_equal_to'].each do |suffix|
-          self.class.send(:define_method, "#{m}_#{suffix}", Proc.new{ |search_term| where(['? >= ?', m, search_term])} )
+          self.class.send(:define_method, "#{m}_#{suffix}", Proc.new{ |search_term| where(["#{m} >= ?", search_term])} )
         end
         ['lt','less_than'].each do |suffix|
-          self.class.send(:define_method, "#{m}_#{suffix}", Proc.new{ |search_term| where(['? < ?', m, search_term])} )
+          self.class.send(:define_method, "#{m}_#{suffix}", Proc.new{ |search_term| where(["#{m} < ?", search_term])} )
         end
         ['lte','less_than_or_equal_to'].each do |suffix|
-          self.class.send(:define_method, "#{m}_#{suffix}", Proc.new{ |search_term| where(['? <= ?', m, search_term])} )
+          self.class.send(:define_method, "#{m}_#{suffix}", Proc.new{ |search_term| where(["#{m} <= ?", search_term])} )
         end
       end
     end
