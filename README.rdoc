@@ -1,5 +1,7 @@
 = duck_chain
 
+=== Note: This gem was originally created for use on Rails 3.0 only to assist with the transition from 2.3.x. However, in theory it should work on later versions of Rails. YMMV.
+
 == Intro
 This gem's purpose is to generate basic chainable search methods on models in Rails 3 similar to searchlogic's dynamic named scopes.
 

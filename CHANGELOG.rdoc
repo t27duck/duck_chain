@@ -1,3 +1,6 @@
+Version 1.1.1
+* Use string litterals in column names for the conditions (ambisoft)
+
 Version 1.1.0
 * Added duck_chain_all (cromulus)
 
