@@ -1,3 +1,6 @@
+Version 1.1.2
+* Table names added to query conditions (ambisoft)
+
 Version 1.1.1
 * Use string litterals in column names for the conditions (ambisoft)
 
